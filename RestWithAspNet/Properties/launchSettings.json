@@ -6,7 +6,7 @@
     "iisExpress": {
       "applicationUrl": "http://localhost:58317",
       "sslPort": 44347
-    }
+    } 
   },
   "profiles": {
     "RestWithAspNet": {
