@@ -26,44 +26,7 @@ namespace RestWithAspNet.Controllers
             return BadRequest("Invalid input");
         }
 
-        [HttpGet("sub/{firstNumber}/{secondNumber}")]
-        public IActionResult GetSub(string firstNumber, string secondNumber)
-        {
-            if(IsNumeric(firstNumber)&& IsNumeric(secondNumber)) 
-            {
-                var sub = ConvertToDecimal(firstNumber) - ConvertToDecimal(secondNumber);
-                return Ok(sub.ToString());
-            }
-
-            return BadRequest("Invalid Input");
-        }
-
-        [HttpGet("mult/{firstNumber}/{secondNumber}")]
-        public IActionResult GetMult(string firstNumber, string secondNumber)
-        {
-            if(IsNumeric(firstNumber)&& IsNumeric(secondNumber))
-            {
-                var mult = ConvertToDecimal(firstNumber) * ConvertToDecimal(secondNumber);
-                return Ok(mult.ToString());
-            }
-
-            return BadRequest("Invalid input");
-        }
-
-
-        [HttpGet("div/{firstNumber}/{secondNumber}")]
-        public IActionResult GetDiv(string firstNumber, string secondNumber)
-        {
-            if(IsNumeric(firstNumber)&& IsNumeric(secondNumber))
-            {
-                var div = ConvertToDecimal(firstNumber) / ConvertToDecimal(secondNumber);
-                return Ok(div.ToString());  
-            }
-
-
-            return BadRequest();
-        }
-
+       
         private decimal ConvertToDecimal(string strNumber)
         {
             decimal decimalValue;
