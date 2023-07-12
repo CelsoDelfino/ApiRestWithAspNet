@@ -1,55 +1,62 @@
-﻿using RestWithAspNet.Model;
+﻿using RestWithAspNet.Data;
+using RestWithAspNet.Model;
+using System;
 
 namespace RestWithAspNet.Services.Implementations
 {
     public class PersonServiceImplementation : IPersonService
     {
+
+        private MySQLContext _context;
+
+        public PersonServiceImplementation(MySQLContext context)
+        {
+            _context = context;
+        }
+
         private volatile int count;
+
+        public Person FindById(long id)
+        {
+            return _context.Persons.SingleOrDefault(_ => _.Id.Equals(id));
+        }
+
+        public List<Person> FindAll()
+        {
+            return _context.Persons.ToList();
+        }
 
         public Person Create(Person person)
         {
+            try
+            {
+                _context.Persons.Add(person);
+                _context.SaveChanges(); 
+            }
+            catch(Exception ex)
+            {
+                throw;
+            }
+
             return person;
         }
 
         public void Delete(long id)
         {
-            
-        }
+            var result = _context.Persons.SingleOrDefault(_ => _.Id.Equals(id));
 
-        public Person FindById(long id)
-        {
-            return new Person
+            if (result != null)
             {
-                Id = IncrementAndGet(),
-                FirstName= "Celso",
-                LastName = "Delfino",
-                Adress = "Rio de Janeiro",
-                Gender = "Masculino"
-            };
-        }
-
-        public List<Person> GetAll()
-        {
-            List<Person> persons = new List<Person>();
-            for(int i =0; i < 8; i++)
-            {
-                Person person = MockPerson(i);
-                persons.Add(person);
+                try
+                {
+                    _context.Persons.Remove(result);
+                    _context.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    throw;
+                }
             }
-
-            return persons;
-        }
-
-        private Person MockPerson(int i)
-        {
-            return new Person
-            {
-                Id = IncrementAndGet(),
-                FirstName = "Person name" + i,
-                LastName = "Person Last name" + i,
-                Adress = "Some Adress" + i ,
-                Gender = "Male"
-            };
         }
 
         private long IncrementAndGet()
@@ -59,7 +66,31 @@ namespace RestWithAspNet.Services.Implementations
 
         public Person Update(Person person)
         {
+            if (!Exists(person.Id)) return new Person();
+
+            var result = _context
+                .Persons
+                .SingleOrDefault(_ => _.Id == person.Id);
+
+            if(result != null) 
+            {
+                try
+                {
+                    _context.Entry(result).CurrentValues.SetValues(person);
+                    _context.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    throw;
+                }
+            }
+
             return person;
+        }
+
+        private bool Exists(long id)
+        {
+            return _context.Persons.Any(_=>_.Id == id);
         }
     }
 }

@@ -21,7 +21,7 @@ namespace RestWithAspNet.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_personService.GetAll());
+            return Ok(_personService.FindAll());
         }
 
         [HttpGet("{id}")]

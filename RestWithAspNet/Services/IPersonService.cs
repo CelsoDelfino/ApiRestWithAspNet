@@ -10,6 +10,6 @@ namespace RestWithAspNet.Services
         Person Update(Person person);   
         void Delete(long id);
 
-        List<Person> GetAll();  
+        List<Person> FindAll();  
     }
 }
