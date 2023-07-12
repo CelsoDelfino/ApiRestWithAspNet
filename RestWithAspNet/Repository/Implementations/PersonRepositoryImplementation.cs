@@ -1,15 +1,16 @@
 ﻿using RestWithAspNet.Data;
 using RestWithAspNet.Model;
-using System;
 
-namespace RestWithAspNet.Services.Implementations
+namespace RestWithAspNet.Repository.Implementations
 {
-    public class PersonServiceImplementation : IPersonService
+    //REPOSITORY - RESPONSÁVEL APENAS PELA PERSISTÊNCIA DOS DADOS
+
+    public class PersonRepositoryImplementation : IPersonRepository
     {
 
         private MySQLContext _context;
 
-        public PersonServiceImplementation(MySQLContext context)
+        public PersonRepositoryImplementation(MySQLContext context)
         {
             _context = context;
         }
@@ -88,7 +89,7 @@ namespace RestWithAspNet.Services.Implementations
             return person;
         }
 
-        private bool Exists(long id)
+        public bool Exists(long id)
         {
             return _context.Persons.Any(_=>_.Id == id);
         }

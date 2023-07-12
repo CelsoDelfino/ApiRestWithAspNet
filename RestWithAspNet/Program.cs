@@ -1,8 +1,9 @@
-
 using Microsoft.EntityFrameworkCore;
 using RestWithAspNet.Data;
-using RestWithAspNet.Services;
-using RestWithAspNet.Services.Implementations;
+using RestWithAspNet.Business;
+using RestWithAspNet.Business.Implementations;
+using RestWithAspNet.Repository;
+using RestWithAspNet.Repository.Implementations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +15,11 @@ var mySqlConnection = builder.Configuration["ConnectionStrings:MySQLConnectionSt
 
 builder.Services.AddDbContext<MySQLContext>(options => options.UseMySql(mySqlConnection, ServerVersion.AutoDetect(mySqlConnection)));
 
-builder.Services.AddScoped<IPersonService, PersonServiceImplementation>();
+//Versioning API
+builder.Services.AddApiVersioning();
+
+builder.Services.AddScoped<IPersonBusiness, PersonBusinessImplementation>();
+builder.Services.AddScoped<IPersonRepository, PersonRepositoryImplementation>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
