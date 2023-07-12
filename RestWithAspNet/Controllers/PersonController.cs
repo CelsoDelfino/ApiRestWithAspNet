@@ -4,7 +4,8 @@ using RestWithAspNet.Services;
 
 namespace RestWithAspNet.Controllers
 {
-    [Route("api/[controller]")]
+    [ApiVersion("1")]
+    [Route("api/[controller]/v{version:apiVersion}")]
     [ApiController]
     public class PersonController : ControllerBase
     {
@@ -52,7 +53,7 @@ namespace RestWithAspNet.Controllers
             return Ok(_personService.Update(person));
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public IActionResult Delete(long id)
         {
             _personService.Delete(id);

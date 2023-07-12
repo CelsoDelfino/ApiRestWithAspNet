@@ -14,6 +14,9 @@ var mySqlConnection = builder.Configuration["ConnectionStrings:MySQLConnectionSt
 
 builder.Services.AddDbContext<MySQLContext>(options => options.UseMySql(mySqlConnection, ServerVersion.AutoDetect(mySqlConnection)));
 
+//Versioning API
+builder.Services.AddApiVersioning();
+
 builder.Services.AddScoped<IPersonService, PersonServiceImplementation>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
